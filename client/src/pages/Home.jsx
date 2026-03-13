@@ -27,11 +27,7 @@ export default function Home() {
       <section className="home-hero-btwin">
         <div className="home-hero-bg" />
         <div className="home-hero-content">
-          <h1 className="home-hero-title">
-            <span className="home-hero-subtitle">체육관 일일체험 서비스 :</span>
-            <br />
-            <span className="home-hero-main">강한 하루, 즐거운 인생</span>
-          </h1>
+          <h1 className="home-hero-title">체육관 일일체험 서비스 : 강한 하루</h1>
           <Link to="/products" className="home-hero-cta">수업 예약하기</Link>
         </div>
       </section>
