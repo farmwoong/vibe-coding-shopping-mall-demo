@@ -4,6 +4,7 @@ const CATEGORY_MAP = {
   fitness: ['헬스장', '크로스핏', '복싱'],
   wrestling: ['레슬링', '주짓수'],
   climbing: ['클라이밍'],
+  crossfit: ['크로스핏'],
 };
 
 async function getProducts(req, res) {

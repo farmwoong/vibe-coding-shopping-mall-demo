@@ -81,6 +81,7 @@ export default function Navbar() {
             <Link to="/products?category=fitness">Fitness</Link>
             <Link to="/products?category=wrestling">Wrestling</Link>
             <Link to="/products?category=climbing">Climbing</Link>
+            <Link to="/products?category=crossfit">Crossfit</Link>
           </nav>
           <div className="header-actions">
             <button type="button" className="header-icon-btn" aria-label="검색">
