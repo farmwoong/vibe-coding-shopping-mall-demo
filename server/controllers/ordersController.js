@@ -104,10 +104,13 @@ async function createOrder(req, res) {
       try {
         await verifyPayment(impUid, total);
       } catch (err) {
-        // 테스트 결제 시 REST API에 imp_uid가 없을 수 있음 → 개발 환경에서만 검증 생략 허용
+        // 테스트/일부 PG 결제 시 REST API에 imp_uid가 없을 수 있음
+        // SKIP_PAYMENT_VERIFICATION=true 이거나 개발환경에서 "존재하지 않는 결제정보" 시 검증 생략
         const isDev = process.env.NODE_ENV !== 'production';
-        if (isDev && err.message?.includes('존재하지 않는 결제정보')) {
-          console.warn('[개발모드] 테스트 결제 검증 생략:', err.message);
+        const canSkipNotFound = err.message?.includes('존재하지 않는 결제정보');
+        const skipNotFound = process.env.SKIP_PAYMENT_VERIFICATION === 'true' || (isDev && canSkipNotFound);
+        if (canSkipNotFound && skipNotFound) {
+          console.warn('[결제검증] 존재하지 않는 결제정보 - 검증 생략:', err.message);
         } else {
           throw err;
         }
