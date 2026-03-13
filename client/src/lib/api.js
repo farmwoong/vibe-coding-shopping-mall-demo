@@ -1,4 +1,6 @@
-const API_BASE = import.meta.env.VITE_API_URL || ''
+const rawBase = import.meta.env.VITE_API_URL || ''
+// /api 중복 방지: VITE_API_URL이 .../api 로 끝나면 제거 (path에 이미 /api 포함)
+const API_BASE = rawBase.replace(/\/api\/?$/, '')
 
 export async function api(path, options = {}) {
   const url = `${API_BASE}${path}`
