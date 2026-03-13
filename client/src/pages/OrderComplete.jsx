@@ -53,7 +53,7 @@ export default function OrderComplete() {
       </header>
 
       <section className="order-complete-success">
-        <h2 className="order-complete-title">예약이 완료되었습니다</h2>
+        <h2 className="order-complete-title">KG이니시스 결제 성공 → 주문 생성</h2>
         <p className="order-complete-desc">
           결제가 완료되었습니다. 아래에서 예약 내역을 확인할 수 있습니다.
         </p>

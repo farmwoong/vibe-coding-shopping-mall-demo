@@ -233,9 +233,10 @@ export default function Order() {
 
     // 리다이렉트 결제(네이버페이 등) 시 콜백이 실행되지 않으므로, 주문 데이터를 저장해두고
     // m_redirect_url로 돌아온 페이지에서 주문 완료 처리
+    // localStorage 사용: 팝업/리다이렉트 창은 sessionStorage를 공유하지 않음
     const pendingKey = `pending_order_${merchantUid}`
     try {
-      sessionStorage.setItem(pendingKey, JSON.stringify({ items: orderItems, totalAmount }))
+      localStorage.setItem(pendingKey, JSON.stringify({ items: orderItems, totalAmount }))
     } catch (_) {}
 
     if (!window.IMP) {
@@ -265,16 +266,16 @@ export default function Order() {
               merchant_uid: rsp.merchant_uid,
             })
             try {
-              sessionStorage.removeItem(pendingKey)
+              localStorage.removeItem(pendingKey)
             } catch (_) {}
             await cartApi.clearCart()
             refreshCart()
             navigate('/order/complete', { state: { order: created }, replace: true })
           } else {
             if (rsp.error_code === 'PAY_CANCEL') {
-              setError('결제가 취소되었습니다.')
+              setError('KG이니시스 결제 실패: 결제가 취소되었습니다.')
             } else {
-              setError(rsp.error_msg || '결제에 실패했습니다.')
+              setError(`KG이니시스 결제 실패: ${rsp.error_msg || '결제에 실패했습니다.'}`)
             }
           }
         } catch (err) {

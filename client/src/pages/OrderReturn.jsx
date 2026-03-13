@@ -37,7 +37,7 @@ export default function OrderReturn() {
 
     if (!isSuccess) {
       const errMsg = searchParams.get('error_msg') || '결제가 완료되지 않았습니다.'
-      setError(errMsg)
+      setError(`KG이니시스 결제 실패: ${errMsg}`)
       setStatus('error')
       return
     }
@@ -45,7 +45,7 @@ export default function OrderReturn() {
     const pendingKey = `${PENDING_KEY_PREFIX}${merchantUid}`
     let pendingData
     try {
-      const raw = sessionStorage.getItem(pendingKey)
+      const raw = localStorage.getItem(pendingKey)
       pendingData = raw ? JSON.parse(raw) : null
     } catch (_) {
       pendingData = null
@@ -66,7 +66,7 @@ export default function OrderReturn() {
       })
       .then(async (created) => {
         try {
-          sessionStorage.removeItem(pendingKey)
+          localStorage.removeItem(pendingKey)
         } catch (_) {}
         await cartApi.clearCart()
         refreshCart()
@@ -93,6 +93,7 @@ export default function OrderReturn() {
   if (status === 'error') {
     return (
       <div className="order-page">
+        <h2 className="order-error-title">KG이니시스 결제 실패 → 결제 실패 알림</h2>
         <p className="order-error">{error}</p>
         <Link to="/orders" className="order-link">내 예약 목록</Link>
         <Link to="/cart" className="order-link">장바구니</Link>

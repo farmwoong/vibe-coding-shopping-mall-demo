@@ -1334,6 +1334,7 @@ body { overflow-x: hidden; width: 100%; margin: 0; min-height: 100vh; font-famil
 .order-back:hover { color: #555; }
 .order-title { font-size: 1.25rem; font-weight: 700; margin: 0; color: #1a1a1a; }
 .order-loading, .order-error { margin: 1rem 0; }
+.order-error-title { font-size: 1rem; font-weight: 600; color: var(--color-error); margin-bottom: 0.5rem; }
 .order-error { color: var(--color-error); }
 .order-link { font-weight: 600; color: #1a1a1a; text-decoration: none; }
 .order-empty { text-align: center; padding: 48px 24px; }
