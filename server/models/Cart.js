@@ -38,8 +38,7 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// 같은 사용자·같은 상품 조합으로 중복 담기 방지용 복합 인덱스 (선택)
-cartSchema.index({ user: 1 });
+// user는 unique: true로 이미 인덱스 생성됨 → 중복 제거
 cartSchema.index({ 'items.product': 1 }, { sparse: true });
 
 module.exports = mongoose.model('Cart', cartSchema);
