@@ -1482,6 +1482,26 @@ body { overflow-x: hidden; width: 100%; margin: 0; min-height: 100vh; font-famil
 }
 .order-calendar-day.selected:hover { background: var(--color-accent-hover); }
 
+@media (max-width: 600px) {
+  .order-calendar-dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 32px);
+    max-width: 320px;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .order-calendar-loading {
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 0;
+    width: calc(100vw - 32px);
+    max-width: 320px;
+  }
+  .order-calendar-day { font-size: 0.75rem; }
+  .order-calendar-weekday { font-size: 0.625rem; }
+}
+
 .order-field label { display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 6px; color: #333; }
 .order-field .required { color: var(--color-error); }
 .order-field input,
