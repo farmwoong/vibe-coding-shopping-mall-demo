@@ -2,8 +2,7 @@ import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { productsApi } from '../lib/api'
-
-const CATEGORIES = ['헬스장', '크로스핏', '클라이밍', '주짓수', '레슬링', '복싱']
+import { PRODUCT_CATEGORIES } from '../lib/categories'
 
 function getCloudinaryConfig() {
   const cloudName = (import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || '').trim()
@@ -232,7 +231,7 @@ export default function AdminProductNew() {
                 className="admin-form-input"
               >
                 <option value="">선택</option>
-                {CATEGORIES.map((c) => (
+                {PRODUCT_CATEGORIES.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>

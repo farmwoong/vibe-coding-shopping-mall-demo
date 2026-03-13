@@ -3,12 +3,13 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { productsApi, cartApi } from '../lib/api'
+import { CATEGORY_NAV } from '../lib/categories'
 
 export default function Products() {
   const { user } = useAuth()
   const { refreshCart } = useCart()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const category = searchParams.get('category') || ''
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(1)
@@ -45,8 +46,9 @@ export default function Products() {
 
   useEffect(() => {
     setLoading(true)
+    const apiCategory = category && category !== 'all' ? category : undefined
     productsApi
-      .list({ page, limit: 10, category: category || undefined })
+      .list({ page, limit: 10, category: apiCategory })
       .then((data) => {
         setProducts(data.products ?? [])
         setTotalPages(data.totalPages ?? 1)
@@ -62,6 +64,25 @@ export default function Products() {
         <h1>체육관 목록</h1>
         <p className="products-desc">등록된 체육관을 둘러보세요.</p>
       </div>
+
+      <nav className="products-category-nav">
+        {CATEGORY_NAV.map(({ id, label, value }) => {
+          const isActive = (value && category === value) || (!value && !category)
+          return (
+            <button
+              key={id}
+              type="button"
+              className={`products-category-tab ${isActive ? 'products-category-tab--active' : ''}`}
+              onClick={() => {
+                setSearchParams(value ? { category: value } : {})
+                setPage(1)
+              }}
+            >
+              {label}
+            </button>
+          )
+        })}
+      </nav>
 
       {loading ? (
         <p className="products-loading">로딩 중...</p>

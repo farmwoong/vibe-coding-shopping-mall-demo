@@ -7,6 +7,9 @@ const CATEGORY_MAP = {
   crossfit: ['크로스핏'],
 };
 
+/** 직접 카테고리명(헬스장 등)도 필터 지원 */
+const DIRECT_CATEGORIES = ['헬스장', '크로스핏', '클라이밍', '주짓수', '레슬링', '복싱'];
+
 async function getProducts(req, res) {
   try {
     const page = Math.max(1, parseInt(req.query.page, 10) || 1);
@@ -15,8 +18,12 @@ async function getProducts(req, res) {
     const categoryParam = (req.query.category || '').toLowerCase();
 
     const filter = {};
-    if (categoryParam && CATEGORY_MAP[categoryParam]) {
-      filter.category = { $in: CATEGORY_MAP[categoryParam] };
+    if (categoryParam && categoryParam !== 'all') {
+      if (CATEGORY_MAP[categoryParam]) {
+        filter.category = { $in: CATEGORY_MAP[categoryParam] };
+      } else if (DIRECT_CATEGORIES.includes(categoryParam)) {
+        filter.category = categoryParam;
+      }
     }
 
     const total = await Product.countDocuments(filter);

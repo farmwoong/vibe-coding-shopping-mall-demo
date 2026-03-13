@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
+import { CATEGORY_NAV } from '../lib/categories'
 
 const IconSearch = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -21,6 +22,8 @@ const IconCart = () => (
 export default function Navbar() {
   const { user, logout } = useAuth()
   const { cartCount } = useCart()
+  const [searchParams] = useSearchParams()
+  const location = useLocation()
   const [openDropdown, setOpenDropdown] = useState(false)
   const buttonRef = useRef(null)
   const dropdownRef = useRef(null)
@@ -78,10 +81,20 @@ export default function Navbar() {
             PT체험
           </Link>
           <nav className="header-nav">
-            <Link to="/products?category=fitness">Fitness</Link>
-            <Link to="/products?category=wrestling">Wrestling</Link>
-            <Link to="/products?category=climbing">Climbing</Link>
-            <Link to="/products?category=crossfit">Crossfit</Link>
+            {CATEGORY_NAV.map(({ id, label, value }) => {
+              const isProductsPage = location.pathname === '/products'
+              const currentCat = searchParams.get('category') || ''
+              const isActive = isProductsPage && (value ? currentCat === value : !currentCat)
+              return (
+                <Link
+                  key={id}
+                  to={value ? `/products?category=${value}` : '/products'}
+                  className={isActive ? 'header-nav-active' : ''}
+                >
+                  {label}
+                </Link>
+              )
+            })}
           </nav>
           <div className="header-actions">
             <button type="button" className="header-icon-btn" aria-label="검색">
