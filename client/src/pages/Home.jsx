@@ -27,7 +27,11 @@ export default function Home() {
       <section className="home-hero-btwin">
         <div className="home-hero-bg" />
         <div className="home-hero-content">
-          <h1 className="home-hero-title">강한 하루 :<br className="hero-br-mobile" /> STRONG DAY</h1>
+          <h1 className="home-hero-title">
+            <span className="home-hero-subtitle">체육관 일일체험 서비스 :</span>
+            <br />
+            <span className="home-hero-main">강한 하루, 즐거운 인생</span>
+          </h1>
           <Link to="/products" className="home-hero-cta">수업 예약하기</Link>
         </div>
       </section>
@@ -79,9 +83,9 @@ export default function Home() {
             <a href="#guide">이용안내</a>
           </nav>
           <div className="home-footer-info">
-            <p>주식회사 PT체험 | 대표이사 홍길동 | 사업자등록번호 000-00-00000</p>
+            <p>주식회사 강한하루 | 대표이사 홍길동 | 사업자등록번호 000-00-00000</p>
             <p>서울특별시 강남구 테헤란로 123 | 고객센터 1234-5678</p>
-            <p className="home-footer-copy">© PT체험. All Rights Reserved.</p>
+            <p className="home-footer-copy">© 강한하루. All Rights Reserved.</p>
           </div>
         </div>
       </footer>

@@ -140,7 +140,7 @@ export default function Login() {
             <span className="lang-arrow">▼</span>
           </button>
           <h1 className="login-logo">
-            <Link to="/">PT체험</Link>
+            <Link to="/">강한하루</Link>
           </h1>
         </div>
 
@@ -221,8 +221,8 @@ export default function Login() {
             <a href="#legal">책임의 한계와 법적고지</a>
             <a href="#help">회원정보 고객센터</a>
           </nav>
-          <p className="login-footer-brand">PT체험</p>
-          <p className="login-footer-copy">Copyright © PT체험. All Rights Reserved.</p>
+          <p className="login-footer-brand">강한하루</p>
+          <p className="login-footer-copy">Copyright © 강한하루. All Rights Reserved.</p>
         </footer>
       </div>
     </div>

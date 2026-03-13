@@ -236,8 +236,8 @@ export default function Order() {
 
     const merchantUid = `ORD_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`
     const orderName = items.length === 1
-      ? (items[0].product?.name ?? 'PT체험 예약')
-      : `PT체험 예약 외 ${items.length - 1}건`
+      ? (items[0].product?.name ?? '강한하루 예약')
+      : `강한하루 예약 외 ${items.length - 1}건`
 
     // 리다이렉트 결제(네이버페이 등) 시 콜백이 실행되지 않으므로, 주문 데이터를 저장해두고
     // m_redirect_url로 돌아온 페이지에서 주문 완료 처리

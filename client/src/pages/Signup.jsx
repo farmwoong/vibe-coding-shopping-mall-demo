@@ -126,7 +126,7 @@ export default function Signup() {
                 checked={agreements.requiredTerms}
                 onChange={(e) => handleAgreementChange('requiredTerms', e.target.checked)}
               />
-              <span className="agreement-label"><em className="tag-required">필수</em> PT체험 이용약관</span>
+              <span className="agreement-label"><em className="tag-required">필수</em> 강한하루 이용약관</span>
               <a href="#terms" className="link-view">보기</a>
             </label>
             <label className="agreement-row">
@@ -177,7 +177,7 @@ export default function Signup() {
       <div className="signup-main">
         <div className="signup-card">
           <div className="signup-header">
-            <h1 className="signup-logo">PT체험</h1>
+            <h1 className="signup-logo">강한하루</h1>
             <p className="signup-sub">회원정보를 입력해 주세요.</p>
           </div>
 

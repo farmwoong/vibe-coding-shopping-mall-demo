@@ -45,7 +45,7 @@ export default function OrderComplete() {
   return (
     <div className="order-complete-page">
       <header className="order-complete-header">
-        <h1 className="order-complete-header-title">PT체험</h1>
+        <h1 className="order-complete-header-title">강한하루</h1>
         <nav className="order-complete-tabs">
           <span className="order-complete-tab order-complete-tab--active">나의 예약</span>
           <Link to="/orders" className="order-complete-tab">나의 알림</Link>

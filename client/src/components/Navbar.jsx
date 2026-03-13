@@ -72,13 +72,13 @@ export default function Navbar() {
   return (
     <div className="site-wrap">
       <div className="announcement-bar">
-        <span className="announcement-full">[NEW] 2026 PT체험 시즌 컬렉션</span>
-        <span className="announcement-short">[NEW] 2026 PT체험</span>
+        <span className="announcement-full">[NEW] 2026 강한하루 시즌 컬렉션</span>
+        <span className="announcement-short">[NEW] 2026 강한하루</span>
       </div>
       <header className="site-header">
         <div className="header-inner">
           <Link to="/" className="header-logo">
-            PT체험
+            강한하루
           </Link>
           <nav className="header-nav">
             {CATEGORY_NAV.map(({ id, label, value }) => {
