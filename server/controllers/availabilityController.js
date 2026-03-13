@@ -11,17 +11,17 @@ function parseDateOnly(dateStr) {
   return d;
 }
 
-/** 해당 날짜가 휴관일인지 */
-async function isClosed(productId, date) {
-  const start = new Date(date);
+/** 해당 기간의 휴관일 목록을 한 번에 조회 (날짜별 쿼리 대신 1회 쿼리) */
+async function getClosedDatesInRange(productId, from, to) {
+  const start = new Date(from);
   start.setUTCHours(0, 0, 0, 0);
-  const end = new Date(date);
+  const end = new Date(to);
   end.setUTCHours(23, 59, 59, 999);
-  const closed = await ClosedDate.findOne({
+  const closedList = await ClosedDate.find({
     product: productId,
     date: { $gte: start, $lte: end },
-  });
-  return !!closed;
+  }).select('date');
+  return new Set(closedList.map((c) => c.date.toISOString().slice(0, 10)));
 }
 
 /** 체육관 예약 가능한 날짜 목록 (Schedule 요일 기준, 휴관일 제외) */
@@ -51,19 +51,21 @@ async function getAvailableDates(req, res) {
       return res.status(400).json({ error: 'to 날짜 형식이 올바르지 않거나 from 이후여야 합니다.' });
     }
 
-    const schedules = await Schedule.find({ product: productId });
+    const [schedules, closedSet] = await Promise.all([
+      Schedule.find({ product: productId }),
+      getClosedDatesInRange(productId, from, to),
+    ]);
     const dayOfWeeks = new Set(schedules.map((s) => s.dayOfWeek));
     const dates = [];
     const cursor = new Date(from);
     const hasSchedule = schedules.length > 0;
     while (cursor <= to) {
+      const dateStr = cursor.toISOString().slice(0, 10);
       const dayOfWeek = cursor.getUTCDay();
       const inSchedule = hasSchedule ? dayOfWeeks.has(dayOfWeek) : true;
-      if (inSchedule) {
-        const closed = await isClosed(productId, cursor);
-        if (!closed) {
-          dates.push(cursor.toISOString().slice(0, 10));
-        }
+      const closed = closedSet.has(dateStr);
+      if (inSchedule && !closed) {
+        dates.push(dateStr);
       }
       cursor.setUTCDate(cursor.getUTCDate() + 1);
     }

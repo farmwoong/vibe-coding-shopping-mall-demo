@@ -15,7 +15,7 @@ function formatDateLabel(dateStr) {
   return `${m}월 ${day}일 (${w})`
 }
 
-function OrderDateCalendar({ availableDates, selectedDate, onSelect, onClose, triggerRef }) {
+function OrderDateCalendar({ availableDates, selectedDate, onSelect, onClose, triggerRef, isLoading }) {
   const datesSet = new Set(availableDates || [])
   const [viewYear, setViewYear] = useState(() => {
     if (selectedDate) {
@@ -79,6 +79,14 @@ function OrderDateCalendar({ availableDates, selectedDate, onSelect, onClose, tr
       setViewMonth(0)
       setViewYear((y) => y + 1)
     } else setViewMonth((m) => m + 1)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="order-calendar-dropdown order-calendar-loading" ref={calendarRef}>
+        <p className="order-calendar-loading-text">날짜 불러오는 중...</p>
+      </div>
+    )
   }
 
   return (
@@ -362,6 +370,7 @@ export default function Order() {
                         <OrderDateCalendar
                           availableDates={dates}
                           selectedDate={displayDate}
+                          isLoading={!(productId in datesByProduct)}
                           onSelect={(dateStr) => {
                             setSelection(itemId, 'selectedDate', dateStr)
                             setOpenCalendarItemId(null)
