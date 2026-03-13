@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { productsApi, cartApi } from '../lib/api'
+import { savePendingAdd } from '../lib/pendingAdd'
 import { CATEGORY_NAV } from '../lib/categories'
 
 export default function Products() {
@@ -23,11 +24,12 @@ export default function Products() {
   const handleAddToCart = async (e, productId) => {
     e.preventDefault()
     e.stopPropagation()
+    const qty = Math.max(1, Math.min(99, quantityByProduct[productId] || 1))
     if (!user) {
-      navigate('/login')
+      savePendingAdd({ productId, quantity: qty })
+      navigate('/login', { state: { from: '/products' + (category ? `?category=${category}` : '') } })
       return
     }
-    const qty = Math.max(1, Math.min(99, quantityByProduct[productId] || 1))
     setAddingId(productId)
     try {
       await cartApi.addItem({ productId, quantity: qty })

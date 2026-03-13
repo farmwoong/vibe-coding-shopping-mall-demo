@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { productsApi, cartApi } from '../lib/api'
+import { savePendingAdd } from '../lib/pendingAdd'
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 
@@ -97,16 +98,17 @@ export default function ProductDetail() {
   })
 
   const handleAddToCart = async () => {
-    if (!user) {
-      navigate('/login')
-      return
-    }
     if (!product?._id) return
     if (!selectedDate) {
       setCartError('이용일을 선택해 주세요.')
       return
     }
     const qty = Math.max(1, Math.min(99, cartQuantity))
+    if (!user) {
+      savePendingAdd({ productId: product._id, quantity: qty, selectedDate })
+      navigate('/login', { state: { from: `/products/${product._id}` } })
+      return
+    }
     setAddingCart(true)
     setCartError('')
     try {

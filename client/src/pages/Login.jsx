@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { usersApi } from '../lib/api'
+import { useCart } from '../context/CartContext'
+import { usersApi, cartApi } from '../lib/api'
+import { getPendingAdd, clearPendingAdd } from '../lib/pendingAdd'
 
 function getStoredToken() {
   return localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -22,7 +24,9 @@ const IconMail = () => (
 
 export default function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { setUser } = useAuth()
+  const { refreshCart } = useCart()
   const [checkingAuth, setCheckingAuth] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -38,9 +42,27 @@ export default function Login() {
     }
     usersApi
       .getMe(token)
-      .then(() => navigate('/', { replace: true }))
+      .then(async () => {
+        const pendingAdd = getPendingAdd()
+        if (pendingAdd?.productId) {
+          try {
+            await cartApi.addItem({
+              productId: pendingAdd.productId,
+              quantity: pendingAdd.quantity ?? 1,
+              selectedDate: pendingAdd.selectedDate,
+            })
+            refreshCart()
+            clearPendingAdd()
+            navigate('/cart', { replace: true })
+          } catch (_) {
+            navigate(location.state?.from || '/', { replace: true })
+          }
+        } else {
+          navigate(location.state?.from || '/', { replace: true })
+        }
+      })
       .catch(() => setCheckingAuth(false))
-  }, [navigate])
+  }, [navigate, location.state?.from])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -74,7 +96,24 @@ export default function Login() {
         sessionStorage.setItem('user', JSON.stringify(data.user || {}))
       }
       setUser(data.user || null)
-      navigate('/', { replace: true })
+
+      // 로그인 전 장바구니 담기 시도 → 로그인 후 담기 이어서 진행
+      const pendingAdd = getPendingAdd()
+      if (pendingAdd?.productId) {
+        try {
+          await cartApi.addItem({
+            productId: pendingAdd.productId,
+            quantity: pendingAdd.quantity ?? 1,
+            selectedDate: pendingAdd.selectedDate,
+          })
+          refreshCart()
+          clearPendingAdd()
+        } catch (_) {}
+        navigate('/cart', { replace: true })
+      } else {
+        const from = location.state?.from || '/'
+        navigate(from, { replace: true })
+      }
     } catch (err) {
       setError(err.message || '로그인에 실패했습니다.')
     } finally {
