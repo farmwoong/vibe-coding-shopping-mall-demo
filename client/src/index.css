@@ -1,15 +1,15 @@
 * { box-sizing: border-box; }
 :root {
-  --color-primary: #283C44;
-  --color-primary-hover: #3d5a6c;
-  --color-accent: #4D7D76;
-  --color-accent-hover: #3d6a63;
-  --color-mint: #D6E8E1;
-  --color-footer-dark: #26403A;
+  --color-primary: #b91c1c;
+  --color-primary-hover: #dc2626;
+  --color-accent: #c41e3a;
+  --color-accent-hover: #dc2626;
+  --color-mint: #fecaca;
+  --color-footer-dark: #991b1b;
   --color-footer-grey: #7A7A7A;
   --color-text: #1a1a1a;
   --color-text-muted: #555;
-  --color-error: #8b5a5a;
+  --color-error: #b91c1c;
 }
 html { overflow-x: hidden; width: 100%; }
 body { overflow-x: hidden; width: 100%; margin: 0; min-height: 100vh; font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; color: var(--color-text); background: #fff; }
@@ -189,7 +189,7 @@ body { overflow-x: hidden; width: 100%; margin: 0; min-height: 100vh; font-famil
 .home-hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(40, 60, 68, 0.75) 0%, rgba(38, 64, 58, 0.6) 50%, rgba(26, 64, 58, 0.85) 100%),
+  background: linear-gradient(135deg, rgba(185, 28, 28, 0.75) 0%, rgba(153, 27, 27, 0.6) 50%, rgba(127, 29, 29, 0.85) 100%),
     url('https://images.unsplash.com/photo-1614091245074-bbf4d04a3c32?w=1920&q=80') center center / cover no-repeat;
 }
 .home-hero-content {
@@ -482,8 +482,8 @@ body { overflow-x: hidden; width: 100%; margin: 0; min-height: 100vh; font-famil
   letter-spacing: 0.05em;
 }
 .home-bottom-item:nth-child(1) { background: var(--color-primary); }
-.home-bottom-item:nth-child(2) { background: #2d4a44; }
-.home-bottom-item:nth-child(3) { background: #26403A; }
+.home-bottom-item:nth-child(2) { background: #dc2626; }
+.home-bottom-item:nth-child(3) { background: #b91c1c; }
 .home-bottom-item:nth-child(4) { background: var(--color-footer-dark); }
 .home-bottom-img { display: none; }
 .home-bottom-label { margin-bottom: 4px; }
@@ -491,7 +491,7 @@ body { overflow-x: hidden; width: 100%; margin: 0; min-height: 100vh; font-famil
 
 .home-footer {
   background: var(--color-footer-dark);
-  color: #b8c4c0;
+  color: #fecaca;
   padding: 48px 24px 32px;
 }
 .home-footer-inner {
@@ -507,7 +507,7 @@ body { overflow-x: hidden; width: 100%; margin: 0; min-height: 100vh; font-famil
   gap: 24px;
 }
 .home-footer-nav a {
-  color: #b8c4c0;
+  color: #fecaca;
   text-decoration: none;
   font-size: 0.8125rem;
 }
